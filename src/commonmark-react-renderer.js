@@ -32,10 +32,8 @@ var defaultRenderers = {
         if (props.checked === true || props.checked === false) {
             var attrs = getCoreProps(props);
             attrs.type = 'checkbox';
-            if (props.checked) {
-                attrs.defaultChecked = true;
-            }
-            attrs.defaultValue = props.children.join(' ');
+            attrs.checked = props.checked;
+            attrs.onChange = function() {};
             return createElement(
                 'div',
                 getCoreProps(props),

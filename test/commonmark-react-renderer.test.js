@@ -590,9 +590,9 @@ describe('react-markdown', function() {
             )).to.equal([
                 '<h1>Hello world</h1>' +
                 '<div>' +
-                '<div><label><input type="checkbox" value="asdf"/>asdf</label></div>' +
-                '<div><label><input type="checkbox" value="gef"/>gef</label></div>' +
-                '<div><label><input type="checkbox" value="jkl" checked=""/>jkl</label></div>' +
+                '<div><label><input type="checkbox"/>asdf</label></div>' +
+                '<div><label><input type="checkbox"/>gef</label></div>' +
+                '<div><label><input type="checkbox" checked=""/>jkl</label></div>' +
                 '</div>' +
                 '<p>the end</p>'
             ].join(''));
