@@ -576,6 +576,28 @@ describe('react-markdown', function() {
                 .to.contain('<hr data-sourcepos="2:1-2:3"/>');
         });
     });
+
+    describe('should parse checklists in a cool way', function() {
+        it('should render a checklist with the proper elements checked', function() {
+            expect(parse(
+                '# Hello world\n' +
+                '\n' +
+                '[ ] asdf\n' +
+                '[ ] gef\n' +
+                '[x] jkl\n' +
+                '\n' +
+                'the end'
+            )).to.equal([
+                '<h1>Hello world</h1>' +
+                '<div>' +
+                '<div><label><input type="checkbox" value="asdf"/>asdf</label></div>' +
+                '<div><label><input type="checkbox" value="gef"/>gef</label></div>' +
+                '<div><label><input type="checkbox" value="jkl" checked=""/>jkl</label></div>' +
+                '</div>' +
+                '<p>the end</p>'
+            ].join(''));
+        });
+    });
 });
 
 function getRenderer(opts) {

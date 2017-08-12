@@ -20,7 +20,6 @@ var defaultRenderers = {
     emph: 'em',
     linebreak: 'br',
     image: 'img',
-    item: 'li',
     link: 'a',
     paragraph: 'p',
     strong: 'strong',
@@ -29,8 +28,35 @@ var defaultRenderers = {
     html_block: HtmlRenderer, // eslint-disable-line camelcase
     html_inline: HtmlRenderer, // eslint-disable-line camelcase
 
+    item: function Item(props) {
+        if (props.checked === true || props.checked === false) {
+            var attrs = getCoreProps(props);
+            attrs.type = 'checkbox';
+            if (props.checked) {
+                attrs.defaultChecked = true;
+            }
+            attrs.defaultValue = props.children.join(' ');
+            return createElement(
+                'div',
+                getCoreProps(props),
+                [createElement(
+                    'label',
+                    getCoreProps(props),
+                    [createElement('input', attrs)].concat(props.children)
+                )]
+            );
+        }
+        return createElement('li', getCoreProps(props), props.children);
+    },
+
     list: function List(props) {
-        var tag = props.type.toLowerCase() === 'bullet' ? 'ul' : 'ol';
+        var listType = props.type.toLowerCase();
+        var tag = 'ol';
+        if (listType === 'bullet') {
+            tag = 'ul';
+        } else if (listType === 'checklist') {
+            tag = 'div';
+        }
         var attrs = getCoreProps(props);
 
         if (props.start !== null && props.start !== 1) {
@@ -186,6 +212,9 @@ function getNodeProps(node, key, opts, renderer) {
             props.start = node.listStart;
             props.type = node.listType;
             props.tight = node.listTight;
+            break;
+        case 'item':
+            props.checked = node.listChecked;
             break;
         default:
     }
